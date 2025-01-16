@@ -17,6 +17,7 @@ import Login from "../components/Login";
 import RegistrationForm from "../components/RegistrationForm";
 import Dashboard from "../layout/Dashboard";
 import { ProtectedRoute } from "./ProtectedRoute";
+import PromptPage from "../components/PromptPage";
 
 const Routes = () => {
   const routesForPublic = [
@@ -37,7 +38,7 @@ const Routes = () => {
       children: [
         {
           path: "/home",
-          element: <Dashboard />,
+          element: <PromptPage />,
         },
       ],
     },
