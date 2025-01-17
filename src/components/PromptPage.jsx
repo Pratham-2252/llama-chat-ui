@@ -15,8 +15,8 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { setAccessToken } from "../reduxstate/TokenSlice";
-import axiosInstance from "../utils/axiosInstance";
 import { getUserId } from "../services";
+import axiosInstance from "../utils/axiosInstance";
 
 // Styled components for custom design
 const StyledPaper = styled(Paper)`
@@ -156,6 +156,11 @@ const PromptPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [userData, setUserData] = useState({});
+  const [prompt, setPrompt] = useState("");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [response, setResponse] = useState("");
+  const [openModal, setOpenModal] = useState(false);
+  const [loading, setLoading] = useState(false); // New loading state
 
   const fetchUserData = async () => {
     const userId = getUserId();
@@ -172,12 +177,9 @@ const PromptPage = () => {
     fetchUserData();
   }, []);
 
-  const [prompt, setPrompt] = useState("");
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [response, setResponse] = useState("");
-  const [openModal, setOpenModal] = useState(false);
-
   const handleSendPrompt = async () => {
+    setLoading(true); // Start loading
+    setResponse(""); // Clear previous response
     try {
       const { data } = await axiosInstance.post(
         `/chatbot/ask?prompt=${prompt}`
@@ -186,6 +188,8 @@ const PromptPage = () => {
       setResponse(formattedResponse);
     } catch (error) {
       setResponse("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false); // Stop loading
     }
   };
 
@@ -287,10 +291,18 @@ const PromptPage = () => {
             variant="contained"
             onClick={handleSendPrompt}
             sx={{ marginTop: "10px" }}
+            disabled={loading} // Disable button while loading
           >
-            Send Prompt
+            {loading ? "Sending..." : "Send Prompt"} {/* Button text changes */}
           </StyledButton>
-          {response && (
+
+          {loading && ( // Loading indicator
+            <ResponseContainer>
+              <ResponseText>Loading...</ResponseText>
+            </ResponseContainer>
+          )}
+
+          {!loading && response && (
             <ResponseContainer>
               <ResponseText>
                 {response.split("```").map((chunk, index) => {
