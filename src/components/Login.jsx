@@ -62,10 +62,10 @@ const Login = () => {
       };
 
       await axiosInstance
-        .post("/api/v1/auth/authenticate", payload)
+        .post("/auth/authenticate", payload)
         .then((response) => {
           if (response.status === 200) {
-            dispatch(setAccessToken(response.data));
+            dispatch(setAccessToken(response.data.accessToken));
             navigate("/home");
           }
         })

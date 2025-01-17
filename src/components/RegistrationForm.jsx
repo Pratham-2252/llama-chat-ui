@@ -73,7 +73,7 @@ const RegistrationForm = () => {
       };
 
       await axiosInstance
-        .post("/api/v1/auth/register", payload)
+        .post("/auth/register", payload)
         .then((response) => {
           if (response.status === 201) {
             alert(`User Created, You can login now.`);

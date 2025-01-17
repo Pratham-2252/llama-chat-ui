@@ -10,12 +10,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { setAccessToken } from "../reduxstate/TokenSlice";
 import axiosInstance from "../utils/axiosInstance";
+import { getUserId } from "../services";
 
 // Styled components for custom design
 const StyledPaper = styled(Paper)`
@@ -72,18 +73,21 @@ const StyledButton = styled(Button)`
   }
 `;
 
+const ResponseText = styled(Box)`
+  font-size: 1rem;
+  color: black;
+  font-family: "Roboto", sans-serif;
+  white-space: pre-wrap; /* Preserves whitespace and formatting */
+  word-break: break-word; /* Ensures long words don't break the layout */
+`;
+
 const ResponseContainer = styled(Box)`
   width: 100%;
   background-color: #e8f5e9;
   padding: 20px;
   border-radius: 8px;
   margin-top: 20px;
-`;
-
-const ResponseText = styled(Typography)`
-  font-size: 1.1rem;
-  color: black;
-  font-family: "Roboto", sans-serif;
+  overflow-x: auto; /* Adds horizontal scrolling for long code blocks */
 `;
 
 const TopBar = styled(Box)`
@@ -151,15 +155,38 @@ const ProfileDetail = styled(Typography)`
 const PromptPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [userData, setUserData] = useState({});
+
+  const fetchUserData = async () => {
+    const userId = getUserId();
+
+    await axiosInstance
+      .get(`/user/${userId}`)
+      .then((response) => {
+        setUserData(response.data);
+      })
+      .catch(() => {});
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
   const [prompt, setPrompt] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const [response, setResponse] = useState("");
   const [openModal, setOpenModal] = useState(false);
 
-  const handleSendPrompt = () => {
-    const dummyResponse = `Your Prompt : ${prompt}, Response :  This is a dummy AI response to your prompt!`;
-    setResponse(dummyResponse);
+  const handleSendPrompt = async () => {
+    try {
+      const { data } = await axiosInstance.post(
+        `/chatbot/ask?prompt=${prompt}`
+      );
+      const formattedResponse = `Your Prompt:\n${prompt}\n\n${data}`;
+      setResponse(formattedResponse);
+    } catch (error) {
+      setResponse("Something went wrong. Please try again.");
+    }
   };
 
   const handleClickProfileIcon = (event) => {
@@ -181,7 +208,7 @@ const PromptPage = () => {
 
   const handleLogout = async () => {
     await axiosInstance
-      .post("/api/v1/auth/logout")
+      .post("/auth/logout")
       .then((response) => {
         if (response.status === 200) {
           dispatch(setAccessToken(null));
@@ -227,10 +254,10 @@ const PromptPage = () => {
             User Profile
           </Typography>
           <ProfileInfo>
-            <ProfileTitle>John Doe</ProfileTitle>
-            <ProfileDetail>Email: john.doe@example.com</ProfileDetail>
-            <ProfileDetail>Role: Admin</ProfileDetail>
-            <ProfileDetail>Country: USA</ProfileDetail>
+            <ProfileTitle>{userData.firstName}</ProfileTitle>
+            <ProfileDetail>Email : {userData.email}</ProfileDetail>
+            <ProfileDetail>Role : {userData.role}</ProfileDetail>
+            <ProfileDetail>Country: India</ProfileDetail>
           </ProfileInfo>
           <Button
             variant="contained"
@@ -265,7 +292,20 @@ const PromptPage = () => {
           </StyledButton>
           {response && (
             <ResponseContainer>
-              <ResponseText variant="body1">{response}</ResponseText>
+              <ResponseText>
+                {response.split("```").map((chunk, index) => {
+                  // Alternate between text and code blocks
+                  if (index % 2 === 0) {
+                    return <span key={index}>{chunk}</span>;
+                  } else {
+                    return (
+                      <pre key={index}>
+                        <code>{chunk}</code>
+                      </pre>
+                    );
+                  }
+                })}
+              </ResponseText>
             </ResponseContainer>
           )}
         </StyledPaper>

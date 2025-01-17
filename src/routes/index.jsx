@@ -14,10 +14,9 @@ import {
   createBrowserRouter,
 } from "react-router-dom";
 import Login from "../components/Login";
-import RegistrationForm from "../components/RegistrationForm";
-import Dashboard from "../layout/Dashboard";
-import { ProtectedRoute } from "./ProtectedRoute";
 import PromptPage from "../components/PromptPage";
+import RegistrationForm from "../components/RegistrationForm";
+import { ProtectedRoute } from "./ProtectedRoute";
 
 const Routes = () => {
   const routesForPublic = [

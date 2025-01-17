@@ -3,7 +3,7 @@ import { Store } from "../reduxstate/Store";
 import { setAccessToken } from "../reduxstate/TokenSlice";
 
 const axiosInstance = axios.create({
-  baseURL: `${process.env.REACT_APP_API_URL}`,
+  baseURL: `${process.env.REACT_APP_API_URL}/api/v1`,
 });
 
 axiosInstance.interceptors.request.use(
