@@ -13,6 +13,7 @@ Llama Chat UI is the client-side application for an AI-powered chatbot system. B
 - React
 - Axios for API communication
 - CSS for styling
+- Material UI used for pre build responsive component.
 
 ## Setup Instructions
 1. Clone the repository:
