@@ -17,6 +17,7 @@ import Login from "../components/Login";
 import PromptPage from "../components/PromptPage";
 import RegistrationForm from "../components/RegistrationForm";
 import { ProtectedRoute } from "./ProtectedRoute";
+import Encryption from "../Encryption";
 
 const Routes = () => {
   const routesForPublic = [
@@ -27,6 +28,10 @@ const Routes = () => {
     {
       path: "/register",
       element: <RegistrationForm />,
+    },
+    {
+      path: "/test",
+      element: <Encryption />,
     },
   ];
 
