@@ -13,6 +13,7 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Encryption from "../Encryption";
 import Home from "../components/Home";
 import Login from "../components/Login";
@@ -62,7 +63,12 @@ const Routes = () => {
     ...routesForAuthenticatedOnly,
   ]);
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer />
+    </>
+  );
 };
 
 export default Routes;

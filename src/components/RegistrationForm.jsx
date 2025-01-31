@@ -2,6 +2,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import styled from "styled-components";
 import axiosInstance from "../utils/axiosInstance";
 import CheckboxField from "./CheckboxField";
@@ -92,8 +93,14 @@ const RegistrationForm = () => {
             navigate("/login");
           }
         })
-        .catch(() => {
-          alert(`Something went wrong.`);
+        .catch((error) => {
+          const response = error.response;
+          if (response.status === 409) {
+            toast.info(`${response.data}`, {
+              position: toast.POSITION.TOP_CENTER,
+              autoClose: 3000,
+            });
+          }
         });
     },
     validate: (values) => {
