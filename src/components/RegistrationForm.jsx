@@ -277,9 +277,9 @@ const RegistrationForm = () => {
                 color="primary"
                 fullWidth
                 sx={{ marginTop: "10px" }}
-                onClick={() => navigate("/login")}
+                onClick={() => navigate("/")}
               >
-                Login
+                Back to Home
               </StyledButton>
             </ButtonContainer>
           </form>
