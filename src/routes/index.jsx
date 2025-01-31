@@ -13,21 +13,26 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
+import Encryption from "../Encryption";
+import Home from "../components/Home";
 import Login from "../components/Login";
 import PromptPage from "../components/PromptPage";
 import RegistrationForm from "../components/RegistrationForm";
 import { ProtectedRoute } from "./ProtectedRoute";
-import Encryption from "../Encryption";
 
 const Routes = () => {
   const routesForPublic = [
     {
       path: "/",
-      element: <Login />,
+      element: <Home />,
     },
     {
       path: "/register",
       element: <RegistrationForm />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
     },
     {
       path: "/test",

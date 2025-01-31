@@ -6,7 +6,6 @@ import {
   Menu,
   MenuItem,
   Modal,
-  Paper,
   TextField,
   Typography,
 } from "@mui/material";
@@ -19,7 +18,7 @@ import { getUserId } from "../services";
 import axiosInstance from "../utils/axiosInstance";
 
 // Styled components for custom design
-const StyledPaper = styled(Paper)`
+const StyledPaper = styled(Box)`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -38,7 +37,7 @@ const PromptContainer = styled(Box)`
   align-items: center;
   min-height: 100vh;
   padding: 20px;
-  background: linear-gradient(135deg, #ece9e6, #ffffff);
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
   padding-top: 60px; /* Adjust to give space for the top bar */
 `;
 
@@ -49,6 +48,7 @@ const PromptTitle = styled(Typography)`
   margin-bottom: 20px;
   color: #333;
   font-family: "Roboto", sans-serif;
+  padding: 0 0 20px 0;
 `;
 
 const StyledTextField = styled(TextField)`
@@ -64,12 +64,12 @@ const StyledButton = styled(Button)`
   text-transform: none;
   font-size: 1rem;
   padding: 12px 0;
-  background-color: #4caf50;
+  background-color: rgba(107, 17, 203, 0.73);
   color: white;
   width: 100%;
   border-radius: 8px;
   &:hover {
-    background-color: #45a049;
+    background-color: rgba(107, 17, 203, 0.73);
   }
 `;
 
@@ -94,20 +94,23 @@ const TopBar = styled(Box)`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #4caf50;
-  color: white;
+  background-color: rgba(252, 249, 249, 0.9);
+  color: black;
   padding: 10px 20px;
-  border-radius: 8px 8px 0 0;
-  width: 100%;
+  width: 95%;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 1000; /* Ensure it stays on top of other elements */
+  box-shadow: 0px 4px 10px rgb(0, 0, 0);
+  margin: 20px 2.5% 0 2.5%;
+  border-radius: 16px;
 `;
 
 const TopBarTitle = styled(Typography)`
   font-size: 1.2rem;
   font-weight: bold;
+  color: black;
 `;
 
 const ProfileIconWrapper = styled(Box)`
@@ -130,8 +133,25 @@ const ModalContent = styled(Box)`
   background-color: white;
   padding: 20px;
   border-radius: 12px;
-  width: 400px;
-  max-width: 90%;
+  width: 40%;
+  height: 40%;
+  max-width: 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    width: 80%; /* Increase width on smaller screens */
+    height: auto; /* Allow height to adjust dynamically */
+    max-width: 90%;
+    padding: 15px;
+  }
+
+  @media (max-width: 480px) {
+    width: 90%;
+    padding: 10px;
+  }
 `;
 
 const ProfileInfo = styled(Box)`
@@ -139,12 +159,17 @@ const ProfileInfo = styled(Box)`
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+  text-align: center;
 `;
 
 const ProfileTitle = styled(Typography)`
   font-size: 1.5rem;
   font-weight: bold;
   margin-bottom: 10px;
+
+  @media (max-width: 480px) {
+    font-size: 1.2rem; /* Adjust font size for smaller screens */
+  }
 `;
 
 const ProfileDetail = styled(Typography)`
@@ -226,7 +251,9 @@ const PromptPage = () => {
     <>
       {/* Top Bar */}
       <TopBar>
-        <TopBarTitle>AI Chatbot</TopBarTitle>
+        <TopBarTitle>
+          <h4>AI Chatbot</h4>
+        </TopBarTitle>
         <ProfileIconWrapper>
           <IconButton
             size="large"
@@ -258,20 +285,19 @@ const PromptPage = () => {
             User Profile
           </Typography>
           <ProfileInfo>
-            <ProfileTitle>{userData.firstName}</ProfileTitle>
+            <ProfileTitle>Name : {userData.firstName}</ProfileTitle>
             <ProfileDetail>Email : {userData.email}</ProfileDetail>
             <ProfileDetail>Role : {userData.role}</ProfileDetail>
             <ProfileDetail>Country: India</ProfileDetail>
           </ProfileInfo>
-          <Button
+          <StyledButton
             variant="contained"
             color="primary"
-            fullWidth
-            sx={{ marginTop: "20px" }}
+            sx={{ marginTop: "20px", width: "50%" }}
             onClick={handleCloseModal}
           >
             Close
-          </Button>
+          </StyledButton>
         </ModalContent>
       </ProfileModal>
 

@@ -1,4 +1,4 @@
-import { Box, Button, Paper, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import React from "react";
 import { useDispatch } from "react-redux";
@@ -9,7 +9,7 @@ import axiosInstance from "../utils/axiosInstance";
 import InputField from "./InputField";
 import PasswordField from "./PasswordField";
 
-const StyledPaper = styled(Paper)`
+const StyledPaper = styled(Box)`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,8 +26,8 @@ const LoginContainer = styled(Box)`
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 20px;
-  background: linear-gradient(135deg, #ece9e6, #ffffff);
+  padding: 30px; /* Increased padding for more space */
+  background: linear-gradient(135deg, #6a11cb, #2575fc);
 `;
 
 const LoginTitle = styled(Typography)`
@@ -37,12 +37,22 @@ const LoginTitle = styled(Typography)`
   margin-bottom: 20px;
   color: #333;
   font-family: "Roboto", sans-serif;
+  padding: 0 0 20px 0;
 `;
 
 const StyledButton = styled(Button)`
   text-transform: none;
   font-size: 0.9rem;
   padding: 10px 0;
+  flex: 1; /* Makes both buttons equal in width */
+`;
+
+const ButtonContainer = styled(Box)`
+  display: flex;
+  justify-content: space-between; /* Ensures spacing between buttons */
+  gap: 15px; /* Adjust the gap between buttons */
+  width: 100%;
+  margin-top: 15px;
 `;
 
 const Login = () => {
@@ -117,25 +127,27 @@ const Login = () => {
               helperText={formik.touched.password && formik.errors.password}
             />
 
-            <StyledButton
-              variant="contained"
-              color="primary"
-              type="submit"
-              fullWidth
-              sx={{ marginTop: "15px" }}
-            >
-              Login
-            </StyledButton>
+            <ButtonContainer>
+              <StyledButton
+                variant="contained"
+                color="primary"
+                type="submit"
+                fullWidth
+                sx={{ marginTop: "15px" }}
+              >
+                Login
+              </StyledButton>
 
-            <StyledButton
-              variant="outlined"
-              color="secondary"
-              fullWidth
-              sx={{ marginTop: "10px" }}
-              onClick={() => navigate("/register")}
-            >
-              Register
-            </StyledButton>
+              <StyledButton
+                variant="outlined"
+                color="primary"
+                fullWidth
+                sx={{ marginTop: "10px" }}
+                onClick={() => navigate("/")}
+              >
+                Back to Home
+              </StyledButton>
+            </ButtonContainer>
           </form>
         </Box>
       </StyledPaper>
