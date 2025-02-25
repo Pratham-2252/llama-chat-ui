@@ -15,10 +15,12 @@ import {
 } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Encryption from "../Encryption";
+import DataViewCustom from "../components/DataView";
 import Home from "../components/Home";
 import Login from "../components/Login";
 import PromptPage from "../components/PromptPage";
 import RegistrationForm from "../components/RegistrationForm";
+import Test from "../components/Test";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 const Routes = () => {
@@ -38,6 +40,14 @@ const Routes = () => {
     {
       path: "/test",
       element: <Encryption />,
+    },
+    {
+      path: "/prime-react",
+      element: <Test />,
+    },
+    {
+      path: "/prime-react-data",
+      element: <DataViewCustom />,
     },
   ];
 

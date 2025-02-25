@@ -1,43 +1,34 @@
-async function executeSequentially(asyncFunctions) {
-  for (const func of asyncFunctions) {
-    try {
-      await func(); // Execute each async function sequentially
-    } catch (error) {
-      throw new Error(`Execution stopped due to error: ${error.message}`);
-    }
-  }
-}
+import { Button } from "primereact/button";
+import { Calendar } from "primereact/calendar";
+import { useState } from "react";
+import AutoSuggest from "./AutoSuggest";
 
-// Example usage:
-const asyncFunc1 = async () => {
-  console.log("Function 1 executed");
-};
-
-const asyncFunc2 = async () => {
-  console.log("Function 2 executed");
-};
-
-const asyncFunc3 = async () => {
-  console.log("Function 3 executed");
-  //   throw new Error("Function 3 failed");
-};
-
-const asyncFunc4 = async () => {
-  console.log("Function 4 executed");
-};
-
-const asyncFunctions = [asyncFunc1, asyncFunc2, asyncFunc3, asyncFunc4];
-
-executeSequentially(asyncFunctions)
-  .then(() => {
-    console.log("All functions executed successfully");
-  })
-  .catch((error) => {
-    console.error(error.message); // Logs the error when one function fails
-  });
+import { Divider } from "primereact/divider";
 
 const Test = () => {
-  return <>Test</>;
+  const [count, setCount] = useState(0);
+  const [date, setDate] = useState(null);
+
+  return (
+    <>
+      <div className="text-center">
+        <Button
+          label="Click"
+          icon="pi pi-plus"
+          onClick={(e) => setCount(count + 1)}
+        ></Button>
+        <div className="text-2xl text-900 mt-3">{count}</div>
+        <AutoSuggest />
+        <Divider />
+        <Calendar
+          value={date}
+          onChange={(e) => setDate(e.value)}
+          dateFormat="dd/mm/yy"
+        />
+        <Divider />
+      </div>
+    </>
+  );
 };
 
 export default Test;
